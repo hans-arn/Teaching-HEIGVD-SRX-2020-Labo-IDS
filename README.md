@@ -120,7 +120,7 @@ Ensuite, créez le fichier de règles `icmp2.rules` dans le repertoire `/etc/sno
 
 `alert icmp any any -> any any (msg:"ICMP Packet"; sid:4000001; rev:3;)`
 
-On peut maintenant executer la commande :
+On peut maintenant exécuter la commande :
 
 ```
 snort -c /etc/snort/mysnort.conf
@@ -286,7 +286,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Reponse :**  
+**Reponse :**  C'est un élément qui permet de pouvoir ajouter des plug-in dans snort. Il est lancé avant de faire la détection de paquet mais après que le paquet aie été décodé.
 
 ---
 
@@ -294,7 +294,7 @@ Vous pouvez aussi utiliser des captures Wireshark ou des fichiers snort.log.xxxx
 
 ---
 
-**Reponse :**  
+**Reponse :**  Cela veut dire que dans notre fichier de configuration home-made, nous n'avons pas mis de configuration pour le préprocesseur.  
 
 ---
 
@@ -310,7 +310,7 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Reponse :**  
+**Reponse :**  Elle alerte quand elle voit un paquet **TCP** provenant de **n'importe quelle adresse et de n’importe quel port** allant vers **n'importe quelle adresse et de n’importe quel port** contenant **Rubinstein**. Le message dans les alertes sera **Mon nom!**. De plus on attribue le sid 4000015 rev. 1 à notre règle pour dire que c'est une règle home made.
 
 ---
 
@@ -324,7 +324,9 @@ sudo snort -c myrules.rules -i eth0
 
 ---
 
-**Reponse :**  
+**Reponse :**  ![](./images/2020-03-30_23-13.png)
+
+![](./images/4.png)
 
 ---
 
@@ -334,7 +336,7 @@ Aller à un site web contenant dans son text votre nom ou votre mot clé que vou
 
 ---
 
-**Reponse :**  
+**Reponse :**  ![](./images/5.png)
 
 ---
 
@@ -346,6 +348,12 @@ Arrêter Snort avec `CTRL-C`.
 
 **Reponse :**  
 
+![](./images/6.png)
+
+![](./images/7.png)
+
+![](./images/8.png)
+
 ---
 
 
@@ -355,14 +363,14 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 ---
 
-**Reponse :**  
+**Reponse :**  ![](./images/9.png)
 
 ---
 
 
 --
 
-### Detecter une visite à Wikipedia
+### Detecter un visite à Wikipedia
 
 Ecrire une règle qui journalise (sans alerter) un message à chaque fois que Wikipedia est visité **DEPUIS VOTRE** station. **Ne pas utiliser une règle qui détecte un string ou du contenu**.
 
@@ -370,7 +378,9 @@ Ecrire une règle qui journalise (sans alerter) un message à chaque fois que Wi
 
 ---
 
-**Reponse :**  
+**Reponse :**  log tcp any any -> 192.168.43.15 any  (msg:"Wikipedia";reference:url,https://www.wikipedia.org/; sid:4000016; rev:1;)
+
+Les logs sont journalisé dans les fichiers snort.log.XXXXXXXX.
 
 ---
 
