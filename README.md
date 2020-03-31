@@ -324,9 +324,11 @@ sudo snort -c myrules.rules -i eth0
 
 ---
 
-**Reponse :**  ![](./images/2020-03-30_23-13.png)
+**Reponse :**
 
 ![](./images/4.png)
+
+On voit des indications sur le chargement de la règle par snort.
 
 ---
 
@@ -336,7 +338,11 @@ Aller à un site web contenant dans son text votre nom ou votre mot clé que vou
 
 ---
 
-**Reponse :**  ![](./images/5.png)
+**Reponse :**  
+
+![](./images/5.png)
+
+Chaque entrée indique un paquet qui a été analysé par snort. 
 
 ---
 
@@ -354,6 +360,8 @@ Arrêter Snort avec `CTRL-C`.
 
 ![](./images/8.png)
 
+Il fait un compte rendu des paquets analysés, leurs protocoles respectif, les alertes émises, etc.. 
+
 ---
 
 
@@ -363,7 +371,11 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 ---
 
-**Reponse :**  ![](./images/9.png)
+**Reponse :**  
+
+![](./images/9.png)
+
+Nous avons le **sid** de la règle qui a produit l'alerte ainsi que le message que nous avons définit. Nous voyons aussi à la deuxième ligne la priorité de l'alerte. La troisième ligne concerne le timestamp, l'adresse source et l'adresse destination du paquet. Les lignes suivantes concernent les détails du paquet. 
 
 ---
 
@@ -380,7 +392,7 @@ Ecrire une règle qui journalise (sans alerter) un message à chaque fois que Wi
 
 **Reponse :**  log tcp any any -> 192.168.43.15 any  (msg:"Wikipedia";reference:url,https://www.wikipedia.org/; sid:4000016; rev:1;)
 
-Les logs sont journalisé dans les fichiers snort.log.XXXXXXXX.
+Les logs sont journalisé dans les fichiers snort.log.XXXXXXXX. Le paquet "responsable" a été journalisé. 
 
 ---
 
@@ -412,7 +424,7 @@ Ecrire une règle qui alerte à chaque fois que votre système reçoit un ping d
 
 ---
 
-**Reponse :**  Il a été journalisé dans /var/log/snort/alert et il apparaît aussi dans les logs.
+**Reponse :**  Il a été journalisé dans les snort.log.XXXXXXXX
 
 ---
 
@@ -421,7 +433,11 @@ Ecrire une règle qui alerte à chaque fois que votre système reçoit un ping d
 
 ---
 
-**Reponse :**  ![](./images/10.png)
+**Reponse :**  
+
+![](./images/10.png)
+
+Les ping concernés par la règle.
 
 ---
 
@@ -446,15 +462,23 @@ alert icmp any any <> 192.168.1.123 any (msg:"PING";sid:4000001;rev:1;)
 
 --
 
-### Detecter une tentative de login SSH
+### Détecter une tentative de login SSH
 
-Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été faite depuis la machine d'un voisin (je sais que la situation actuelle du Covid-19 ne vous permet pas de vous mettre ensemble... utilisez votre imagination pour trouver la solution à cette question !). Si vous avez besoin de plus d'information sur ce qui décrit cette tentative (adresses, ports, protocoles), servez-vous de Wireshark pour analyser les échanges lors de la requête de connexion depuis votre voisi.
+Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été faite depuis la machine d'un voisin (je sais que la situation actuelle du Covid-19 ne vous permet pas de vous mettre ensemble... utilisez votre imagination pour trouver la solution à cette question !). Si vous avez besoin de plus d'information sur ce qui décrit cette tentative (adresses, ports, protocoles), servez-vous de Wireshark pour analyser les échanges lors de la requête de connexion depuis votre voici.
 
 **Question 14: Quelle est votre règle ? Montrer la règle et expliquer en détail comment elle fonctionne.**
 
 ---
 
-**Reponse :**  
+**Réponse :**  alert tcp any any ->  192.168.1.123 22 (msg:"Connexion SSH externe";sid:4000002;rev:1;) 
+
+- alert : produit un message dans le fichier /var/log/snort/alert
+- tcp : car le protocole TCP est utilisé pour SSH
+- any any : provenant de n'importe quelle adresse sur n'importe quel port
+- -> : le trafic à destination de notre machine uniquement
+- 192.168.1.123 22 : sur l'adresse de ma machine au port 22
+- msg:"Connexion SSH externe" : le message affiché dans alert
+- sid:4000002;rev:1 : ID et révision de la règle home made
 
 ---
 
@@ -463,7 +487,7 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 ---
 
-**Reponse :**  
+**Réponse :**  ![](/home/jerome/HEIG/Labo/SRX/Teaching-HEIGVD-SRX-2020-Labo-IDS/images/11.png)
 
 ---
 
@@ -477,7 +501,7 @@ Lancer Wireshark et faire une capture du trafic sur l'interface connectée au br
 
 ---
 
-**Reponse :**  
+**Reponse :**  L'option **-r *.pcapng ** permet de lire une capture fait avec wireshark
 
 ---
 
@@ -487,7 +511,7 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 ---
 
-**Reponse :**  
+**Reponse :**  Lorsqu'on ouvre la capture, snort l'analyse et sort les résultats comme pour une analyse en temps réel. 
 
 ---
 
@@ -495,7 +519,7 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 ---
 
-**Reponse :**  
+**Reponse :**  Oui elles sont aussi affichées. 
 
 ---
 
@@ -509,7 +533,9 @@ Faire des recherches à propos des outils `fragroute` et `fragtest`.
 
 ---
 
-**Reponse :**  
+**Reponse :**  Fragroute : Ces deux outils permettent d’intercepter, modifié et réécrire du trafic destiné pour une machine donnée. On peut aussi dupliqué, fragmenté et ralentir un paquet  
+
+Fragtest: test le ré-assemblage des paquets.
 
 ---
 
@@ -518,22 +544,24 @@ Faire des recherches à propos des outils `fragroute` et `fragtest`.
 
 ---
 
-**Reponse :**  
+**Reponse :**  Il sert à fragmenter les paquets, potentiellement malveillant, pour pouvoir passer l'analyse du NIDS. 
 
 ---
-
 
 **Question 22: Qu'est-ce que le `Frag3 Preprocessor` ? A quoi ça sert et comment ça fonctionne ?**
 
 ---
 
-**Reponse :**  
+**Reponse :**  C'est un module pour Snort pour contrer, en partie, la défragmentation de paquet. Si l'attaquant défragmente les paquets et qu'il connaît l'OS qui va les réassembler, il peut paramétrer la défragmentation de sorte à ce que séparément les fragments ne soit pas détecter mais ensemble il puisse être malveillant. 
+
+Ce module permet d'utiliser un mappage des hôtes réseau pour savoir comment appréhender des paquets fragmenter. 
+
+source : https://snort.org/faq/readme-frag3
 
 ---
 
 
 Reprendre l'exercice de la partie [Trouver votre nom](#trouver-votre-nom-). Essayer d'offusquer la détection avec `fragroute`.
-
 
 **Question 23: Quel est le résultat de votre tentative ?**
 
@@ -555,21 +583,19 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-
 **Question 25: A quoi sert le `SSL/TLS Preprocessor` ?**
 
 ---
 
-**Reponse :**  
+**Réponse :**  Comme le trafic chiffré doit être ignoré par snort pour des raisons de performances et pour éviter les faux-positifs. Il est néanmoins possible d'activer l'inspection des handschake sur le port 443 par SSL/TLS preprocessor. 
 
 ---
-
 
 **Question 26: A quoi sert le `Sensitive Data Preprocessor` ?**
 
 ---
 
-**Reponse :**  
+**Réponse :**  Cette option permet de détecter si des données sensibles transitent en clair sur le réseau. À l'aide d'une REGEX, le système  lance une alerte. 
 
 ---
 
@@ -580,7 +606,7 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Reponse :**  
+**Réponse :**  
 
 ---
 
