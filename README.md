@@ -394,7 +394,7 @@ Ecrire une règle qui alerte à chaque fois que votre système reçoit un ping d
 
 ---
 
-**Reponse :**  
+**Reponse :**  alert icmp any any -> 192.168.1.123 any (msg:"ping entrant";sid:4000001;rev:1;itype:8;)
 
 ---
 
@@ -403,7 +403,7 @@ Ecrire une règle qui alerte à chaque fois que votre système reçoit un ping d
 
 ---
 
-**Reponse :**  
+**Reponse :**  Nous avons ajouté comme règle que le ping doit être de type ECHO et Non ECHO REPLY
 
 ---
 
@@ -412,7 +412,7 @@ Ecrire une règle qui alerte à chaque fois que votre système reçoit un ping d
 
 ---
 
-**Reponse :**  
+**Reponse :**  Il a été journalisé dans /var/log/snort/alert et il apparaît aussi dans les logs.
 
 ---
 
@@ -421,7 +421,7 @@ Ecrire une règle qui alerte à chaque fois que votre système reçoit un ping d
 
 ---
 
-**Reponse :**  
+**Reponse :**  ![](./images/10.png)
 
 ---
 
@@ -435,7 +435,11 @@ Modifier votre règle pour que les pings soient détectés dans les deux sens.
 
 ---
 
-**Reponse :**  
+**Reponse :**  Pour le que la règle puisse détecter tous types de ping, nous avons enlevé l'option **itype** et l'opérateur de direction de **->** à **<>**. Ainsi si on lance un ping en envoyant 8 paquets, on aura 16 alerts car on a le paquet de l'autre machine.
+
+Finalement la règle nous donne cela :
+
+alert icmp any any <> 192.168.1.123 any (msg:"PING";sid:4000001;rev:1;)
 
 ---
 
