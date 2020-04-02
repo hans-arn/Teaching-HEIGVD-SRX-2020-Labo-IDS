@@ -567,7 +567,9 @@ Reprendre l'exercice de la partie [Trouver votre nom](#trouver-votre-nom-). Essa
 
 ---
 
-**Reponse :**  
+**Reponse :**  Après de nombreuses tentatives infructueuses, nous avons pu obtenir un résultat avec l'option **T9** de fragrouter qui modifie un segment de 1 byte. J'ai ciblé un mot dans une page html qui est déclenche une `alert` dans snort. Avec l’activation de fragrouter, cela ne la décenche plus. 
+
+Nous aurions voulu utiliser la fragmentation en paquet de 8 bytes pour que snort ne puisse pas détecter un chaîne qui fait plus de 8 bytes. mais malheureusement lors de nos tentatives nous n'avons pas réussi à le faire. 
 
 ---
 
@@ -579,7 +581,7 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Reponse :**  
+**Reponse :**  Comme nous n'avons pas réussi à bloquer le paquet recherché avec de la fragmentation, `frag3` ne nous aide pas dans ce cas. Néanmoins si on a besoin de sa configuration on peut s'inspirer du fichier **snort.conf**. 
 
 ---
 
@@ -606,7 +608,11 @@ Modifier le fichier `myrules.rules` pour que snort utiliser le `Frag3 Preprocess
 
 ---
 
-**Réponse :**  
+**Réponse :**  Dans de nombreux cas snort est un outil très puissant pouvant éviter une grande partie des tentatives d'intrusions sur certains ports. Dans le cas des Ping et connexion SSH c'est très facile de mettre en place une règle pouvant gérer des alertes. 
+
+Le moment ou la configuration devient compliquée fastidieuse et lorsqu'on doit analyser le contenu du paquet. Car suivant ce que l'on veut cibler, par exemple une chaîne dans une page html, il est difficile de la détecter. De plus j'ai remarqué que si la page se trouve déjà dans le cache du navigateur elle n'était pas traiter par snort. 
+
+Dernière remarque qui fait que snort n'est pas optimisé pour regarder le contenu des paquets, c'est le fait qu'il ne puisse pas déchiffrer une communication chiffrée. Ce qui pose problème où beaucoup de sites sont en https. 
 
 ---
 
