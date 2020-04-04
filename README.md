@@ -487,7 +487,7 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 ---
 
-**Réponse :**  ![](/home/jerome/HEIG/Labo/SRX/Teaching-HEIGVD-SRX-2020-Labo-IDS/images/11.png)
+**Réponse :**  ![](./images/11.png)
 
 ---
 
