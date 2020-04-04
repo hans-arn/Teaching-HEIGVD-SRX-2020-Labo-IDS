@@ -1,8 +1,6 @@
 # Teaching-HEIGVD-SRX-2020-Laboratoire-IDS
 
-**Ce travail de laboratoire est à faire en équipes de 2 personnes** (oui... en remote...). Je vous laisse vous débrouiller ;-)
-
-**ATTENTION : Commencez par créer un Fork de ce repo et travaillez sur votre fork.**
+Auteurs : Quentin Saucy et Jérôme Arn
 
 Clonez le repo sur votre machine. Vous pouvez répondre aux questions en modifiant directement votre clone du README.md ou avec un fichier pdf que vous pourrez uploader sur votre fork.
 
